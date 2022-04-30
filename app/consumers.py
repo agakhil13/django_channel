@@ -1,6 +1,7 @@
 #Topic -- Consumer
 
 from channels.consumer import SyncConsumer, AsyncConsumer
+from channels.exceptions import StopConsumer
 
 class MySyncConsumer(SyncConsumer):
     def websocket_connect(self, event):
@@ -16,6 +17,7 @@ class MySyncConsumer(SyncConsumer):
     
     def websocket_disconnect(self, event):
         print('websocket disconnected', event)
+        raise StopConsumer()
 
 class MyAsyncConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
@@ -26,3 +28,4 @@ class MyAsyncConsumer(AsyncConsumer):
     
     async def websocket_disconnect(self, event):
         print('websocket disconnected', event)
+        raise StopConsumer()
