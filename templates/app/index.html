@@ -10,7 +10,7 @@
     <h1>Welcome to the page</h1>
     <h2 id="dynamic"></h2>  
     <button id="start" onclick="sendMyMessages()" >START</button>
-    <script>
+    <!-- <script>
         var x = document.getElementById("dynamic");
         var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
         ws.onopen = function(){
@@ -26,6 +26,26 @@
         ws.onclose = function(event){
             console.log('websocket connection closed....', event)
         }
+        function sendMyMessages() {
+            ws.send("Hi, from the client.");
+        }
+    </script> -->
+    <script>
+        var x = document.getElementById("dynamic");
+        var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
+        ws.addEventListener('open', ()=>{
+            console.log("Websocket connection opened...")
+        })
+        ws.addEventListener('message', (event)=>{
+            console.log("Websocket message received...", event)
+            x.innerHTML = event['data']
+        })
+        ws.addEventListener('error', (event)=>{
+            console.log("Websocket cerror occured...", event)
+        })
+        ws.addEventListener('close', (event)=>{
+            console.log("Websocket connection closed...", event)
+        })
         function sendMyMessages() {
             ws.send("Hi, from the client.");
         }
