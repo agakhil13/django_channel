@@ -9,6 +9,7 @@
 <body>
     <h1>Welcome to the page</h1>
     <h2 id="dynamic"></h2>  
+    <input type="text" id="mytext" required>
     <button id="start" onclick="sendMyMessages()" >START</button>
     <!-- <script>
         var x = document.getElementById("dynamic");
@@ -32,22 +33,25 @@
     </script> -->
     <script>
         var x = document.getElementById("dynamic");
+        var mytext = document.getElementById("mytext");
         var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
         ws.addEventListener('open', ()=>{
             console.log("Websocket connection opened...")
         })
         ws.addEventListener('message', (event)=>{
             console.log("Websocket message received...", event)
-            x.innerHTML = event['data']
+            x.innerHTML = JSON.parse(event.data).count
         })
         ws.addEventListener('error', (event)=>{
-            console.log("Websocket cerror occured...", event)
+            console.log("Websocket error occured...", event)
         })
         ws.addEventListener('close', (event)=>{
             console.log("Websocket connection closed...", event)
         })
         function sendMyMessages() {
-            ws.send("Hi, from the client.");
+            if (mytext.value){
+            ws.send(mytext.value);
+            }
         }
     </script>
 </body>
