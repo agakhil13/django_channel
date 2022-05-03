@@ -46,7 +46,7 @@ class MyAsyncConsumer(AsyncConsumer):
         for i in range(10):
             await self.send({
             'type': 'websocket.send',
-            'text': str(i)
+            'text': json.dumps({'count': i})
             })
             await asyncio.sleep(1)
     
